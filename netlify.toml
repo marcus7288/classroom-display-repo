@@ -1,0 +1,11 @@
+# No build step: the front-end is plain HTML/CSS/JS, published as-is.
+# This is what makes deploys near-instant -- Netlify just uploads /public.
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+  # Intentionally no [build.command]. The function's own dependencies
+  # (netlify/functions/package.json) are installed independently by
+  # Netlify's function bundler and never touch the site build.
+
+[functions]
+  node_bundler = "esbuild"

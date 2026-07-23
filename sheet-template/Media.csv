@@ -1,0 +1,5 @@
+Name,Type,URL_or_Album,LoopYN,Notes
+Arrival Chimes,audio,,Y,Blank URL = built-in generated tone
+Calm Piano,audio,,Y,Blank URL = built-in generated tone
+Play Beats,audio,,Y,Blank URL = built-in generated tone
+Clean-Up Song,audio,,Y,Always the same track by design; put a real URL here once you have one
