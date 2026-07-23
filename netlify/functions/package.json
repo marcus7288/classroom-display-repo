@@ -1,0 +1,8 @@
+{
+  "name": "classroom-display-functions",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "google-auth-library": "^9.14.1"
+  }
+}
