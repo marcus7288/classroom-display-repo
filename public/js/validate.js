@@ -48,7 +48,7 @@ export function validateMedia(rows) {
       URL_or_Album: (r.URL_or_Album || "").trim(),
       // Accepts either the raw "Y"/"N" string a Sheet row produces, or a
       // real boolean (the built-in placeholder plan supplies one directly).
-      LoopYN: String(r.LoopYN ?? "").trim().toUpperCase() === "Y" || r.LoopYN === true,
+      LoopYN: String(r.LoopYN || "").trim().toUpperCase() === "Y" || r.LoopYN === true,
       Notes: (r.Notes || "").trim(),
     });
   }

@@ -43,7 +43,7 @@ export class SceneManager {
     const el = document.createElement("div");
     el.className = "scene is-visible";
     el.style.background = `radial-gradient(circle at 50% 30%, ${accent}55, #0b0e14 75%)`;
-    const subtitle = media?.Name ? `<div class="scene-subtitle">${escapeHtml(media.Name)}</div>` : "";
+    const subtitle = media && media.Name ? `<div class="scene-subtitle">${escapeHtml(media.Name)}</div>` : "";
     el.innerHTML = `<div class="scene-title">${escapeHtml(SCENE_LABELS[sceneId] || sceneId)}</div>${subtitle}`;
     this.root.appendChild(el);
     this.audio.play(media, sceneId);

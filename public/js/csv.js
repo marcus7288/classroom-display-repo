@@ -53,5 +53,5 @@ export function parseCSV(text) {
   return rows
     .slice(1)
     .filter((r) => r.some((cell) => cell.trim() !== ""))
-    .map((r) => Object.fromEntries(header.map((h, i) => [h, (r[i] ?? "").trim()])));
+    .map((r) => Object.fromEntries(header.map((h, i) => [h, (r[i] || "").trim()])));
 }

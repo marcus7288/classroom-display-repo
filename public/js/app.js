@@ -84,7 +84,10 @@ function main(room) {
     els.stage.hidden = false;
     // Deferred so it can't be swept up in the same key event that
     // triggered this click (see comment above).
-    setTimeout(() => els.controlBar.querySelector("button")?.focus(), 0);
+    setTimeout(() => {
+      const firstBtn = els.controlBar.querySelector("button");
+      if (firstBtn) firstBtn.focus();
+    }, 0);
     boot();
   }
 
@@ -133,7 +136,7 @@ function main(room) {
       clearOverride(room.key);
     }
 
-    const effectiveSceneId = overrideStillFresh ? override : current?.Scene || "wallpaper";
+    const effectiveSceneId = overrideStillFresh ? override : (current && current.Scene) || "wallpaper";
     const mediaRef = resolveMediaRef(roomSchedule, effectiveSceneId, current);
     const mediaRow = plan.media.find((m) => m.Name === mediaRef) || null;
     const lessonName = effectiveSceneId === "lesson" ? resolveLessonName(roomSchedule, plan.lessons, current) : null;
@@ -210,7 +213,7 @@ function resolveLessonName(roomSchedule, lessons, currentRow) {
   if (currentRow && currentRow.Scene === "lesson" && currentRow.MediaRef) return currentRow.MediaRef;
   const row = roomSchedule.find((r) => r.Scene === "lesson" && r.MediaRef);
   if (row) return row.MediaRef;
-  return lessons[0]?.LessonName || null;
+  return (lessons[0] && lessons[0].LessonName) || null;
 }
 
 function formatDisplayTime(hhmm) {
