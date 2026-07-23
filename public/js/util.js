@@ -1,5 +1,6 @@
 export function escapeHtml(str) {
-  return String(str ?? "").replace(/[&<>"']/g, (c) => (
+  const safe = str === null || str === undefined ? "" : String(str);
+  return safe.replace(/[&<>"']/g, (c) => (
     { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
   ));
 }

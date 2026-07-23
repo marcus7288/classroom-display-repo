@@ -39,7 +39,7 @@ export class LessonViewer {
     const preferredFocus =
       this.container.querySelector(".lesson-nav-btn.next:not([disabled])") ||
       this.container.querySelector(".lesson-close-btn");
-    preferredFocus?.focus();
+    if (preferredFocus) preferredFocus.focus();
   }
 
   handleAction(action) {
@@ -63,7 +63,7 @@ export class LessonViewer {
   }
 
   close() {
-    this.onClose?.();
+    if (this.onClose) this.onClose();
   }
 
   // Returns true if it consumed the key (so app.js's global handler stops there).
