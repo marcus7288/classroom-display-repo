@@ -19,6 +19,13 @@
 
 * { box-sizing: border-box; }
 
+/* #room-picker/#start-splash below set `display: flex` on an ID selector,
+   which otherwise beats the UA stylesheet's `[hidden] { display: none }`
+   (ID specificity > attribute specificity) -- meaning the `hidden` attribute
+   would do nothing and every section would render at once, stacked. This
+   makes `hidden` win unconditionally, however else display is set. */
+[hidden] { display: none !important; }
+
 html, body {
   margin: 0;
   padding: 0;
