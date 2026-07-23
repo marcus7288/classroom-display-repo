@@ -59,6 +59,13 @@ function main(room) {
 
   buildControlBar(room, () => forceTick());
 
+  // The Start button has `autofocus` in the HTML, but #start-splash starts
+  // out `hidden` -- autofocus only applies while an element is visible
+  // during initial page load, so it never actually takes focus once we
+  // un-hide the splash here. Without an explicit focus() call, a remote
+  // with no mouse has nothing to send Enter to, and pressing it does nothing.
+  els.startBtn.focus();
+
   // A focused <button> already activates on Enter/Space natively (fires
   // "click"), so a single click listener is enough -- adding a matching
   // keydown handler here would double-fire, and moving focus to the control
@@ -67,7 +74,11 @@ function main(room) {
   els.startBtn.addEventListener("click", start);
 
   function start() {
-    audio.unlock();
+    try {
+      audio.unlock();
+    } catch (err) {
+      console.warn("[audio] unlock failed:", err.message); // don't let this block the splash from dismissing
+    }
     requestWakeLock();
     els.startSplash.hidden = true;
     els.stage.hidden = false;
@@ -151,7 +162,17 @@ function main(room) {
   // Global keyboard/remote handling. Never navigates the browser (no history
   // back), so the Back button can't accidentally exit the kiosk view.
   window.addEventListener("keydown", (e) => {
-    if (els.stage.hidden) return; // start splash handles its own keys
+    if (els.stage.hidden) {
+      // Start splash is up. A focused Start button already activates via its
+      // own click listener (see the focus() call above); this is a fallback
+      // for kiosk browsers where programmatic focus doesn't stick, so Enter
+      // still works even if nothing is focused.
+      if ((e.key === "Enter" || e.key === " ") && document.activeElement !== els.startBtn) {
+        e.preventDefault();
+        start();
+      }
+      return;
+    }
     if (scenes.handleKey(e)) return; // lesson viewer consumed it
 
     if (e.key === "Escape" || e.key === "Backspace" || e.key === "BrowserBack") {
